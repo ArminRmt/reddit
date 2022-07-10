@@ -450,7 +450,7 @@
                         <div class="ml-12">
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                 Laravel has wonderful, thorough documentation covering every aspect of the framework.
-                                Whether you are new to the framework or have previous experience with Laravel, we
+                                Whether efw new to the framework or have previous experience with Laravel, we
                                 recommend reading all of the documentation from beginning to end.
                             </div>
                         </div>
@@ -518,7 +518,7 @@
                                     class="underline">Vapor</a>, <a href="https://nova.laravel.com"
                                     class="underline">Nova</a>, and <a href="https://envoyer.io"
                                     class="underline">Envoyer</a> help you take your projects to the next level. Pair
-                                them with powerful open source libraries like <a href="https://laravel.com/docs/billing"
+                                powerful open source libraries like <a href="https://laravel.com/docs/billing"
                                     class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk"
                                     class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting"
                                     class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon"
