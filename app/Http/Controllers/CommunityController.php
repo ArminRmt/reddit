@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCommunityRequest;
+use App\Http\Requests\UpdateCommunityRequest;
+use App\Models\Community;
 use App\Models\Topic;
 use Illuminate\Http\Request;
-
-use function Ramsey\Uuid\v1;
 
 class CommunityController extends Controller
 {
 
     public function index()
     {
-        // $communities = Community::where('user_id', auth()->id())->get();
+        $communities = Community::where('user_id', auth()->id())->get();
 
-        // return view('communities.index', compact('communities'));
+        return view('communities.index', compact('communities'));
     }
 
 
@@ -25,20 +26,16 @@ class CommunityController extends Controller
         return view('communities.create', compact('topics'));
     }
 
-
-    public function store(Request $request)
+    public function store(StoreCommunityRequest $request)
     {
-        //
+        $community = Community::create($request->validated() + ['user_id' => auth()->id()]);
+        $community->topics()->attach($request->topics);
+
+        return redirect()->route('communities.show', $community);
     }
 
 
-    // public function store(StoreCommunityRequest $request)
-    // {
-    //     $community = Community::create($request->validated() + ['user_id' => auth()->id()]);
-    //     $community->topics()->attach($request->topics);
 
-    //     return redirect()->route('communities.show', $community);
-    // }
 
     public function show($id)
     {
@@ -64,38 +61,28 @@ class CommunityController extends Controller
     // }
 
 
-    public function edit($id)
+    public function edit(Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $topics = Topic::all();
+        $community->load('topics');
+
+        return view('communities.edit', compact('community', 'topics'));
     }
 
-    // public function edit(Community $community)
-    // {
-    //     if ($community->user_id != auth()->id()) {
-    //         abort(403);
-    //     }
-    //     $topics = Topic::all();
-    //     $community->load('topics');
 
-    //     return view('communities.edit', compact('community', 'topics'));
-    // }
-
-
-    public function update(Request $request, $id)
+    public function update(UpdateCommunityRequest $request, Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $community->update($request->validated());
+        $community->topics()->sync($request->topics);
+
+        return redirect()->route('communities.index')->with('message', 'Successfully updated');
     }
-
-    // public function update(UpdateCommunityRequest $request, Community $community)
-    // {
-    //     if ($community->user_id != auth()->id()) {
-    //         abort(403);
-    //     }
-    //     $community->update($request->validated());
-    //     $community->topics()->sync($request->topics);
-
-    //     return redirect()->route('communities.index')->with('message', 'Successfully updated');
-    // }
 
 
     public function destroy($id)
