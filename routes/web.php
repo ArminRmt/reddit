@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('communities', \App\Http\Controllers\CommunityController::class);
+    Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class);
     // Route::resource('communities', \App\Http\Controllers\CommunityController::class)
     //     ->except('show');
     // Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class)

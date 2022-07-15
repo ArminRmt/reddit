@@ -85,18 +85,13 @@ class CommunityController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Community $community)
     {
-        //
+        if ($community->user_id != auth()->id()) {
+            abort(403);
+        }
+        $community->delete();
+
+        return redirect()->route('communities.index')->with('message', 'Successfully deleted');
     }
-
-    // public function destroy(Community $community)
-    // {
-    //     if ($community->user_id != auth()->id()) {
-    //         abort(403);
-    //     }
-    //     $community->delete();
-
-    //     return redirect()->route('communities.index')->with('message', 'Successfully deleted');
-    // }
 }
