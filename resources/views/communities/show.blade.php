@@ -24,11 +24,11 @@
 
                     <div class="card-body">
 
-                        {{-- <a href="{{ route('communities.posts.create', $community) }}" class="btn btn-primary">Add Post</a>
+                        <a href="{{ route('communities.posts.create', $community) }}" class="btn btn-primary">Add Post</a>
                         <br /><br />
                         @forelse ($posts as $post)
                             <div class="row">
-                                @livewire('post-votes', ['post' => $post])
+                                {{-- @livewire('post-votes', ['post' => $post]) --}}
                                 <div class="col-11">
                                     <a href="{{ route('communities.posts.show', [$post->id]) }}">
                                         <h2>{{ $post->title }}</h2>
@@ -42,7 +42,8 @@
                             No posts found.
                         @endforelse
 
-                        {{ $posts->links() }} --}}
+                        {{-- paginator --}}
+                        {{ $posts->links() }}
 
                     </div>
                 </div>

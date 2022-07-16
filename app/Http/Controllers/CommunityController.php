@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 class CommunityController extends Controller
 {
 
+    //   Display a listing of the resource.
+
     public function index()
     {
         $communities = Community::where('user_id', auth()->id())->get();
@@ -19,12 +21,17 @@ class CommunityController extends Controller
     }
 
 
+    //  Show the form for creating a new resource.
+
     public function create()
     {
         $topics = Topic::all();
 
         return view('communities.create', compact('topics'));
     }
+
+
+    //  Store a newly created resource in storage.
 
     public function store(StoreCommunityRequest $request)
     {
@@ -35,7 +42,7 @@ class CommunityController extends Controller
     }
 
 
-
+    //   Display the specified resource
 
     public function show($id)
     {
