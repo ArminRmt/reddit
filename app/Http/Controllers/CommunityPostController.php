@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Community;
 use App\Models\Post;
+use App\Models\PostVote;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class CommunityPostController extends Controller
 {
@@ -37,33 +39,21 @@ class CommunityPostController extends Controller
             'post_url' => $request->post_url ?? null,
         ]);
 
+        if ($request->hasFile('post_image')) {
+            $image = $request->file('post_image')->getClientOriginalName();
+            $request->file('post_image')
+                ->storeAs('posts/' . $post->id, $image);
+            $post->update(['post_image' => $image]);
+
+            $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
+            $file->resize(600, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnail_' . $image));
+        }
+
         return redirect()->route('communities.show', $community);
     }
-
-    // public function store(StorePostRequest $request, Community $community)
-    // {
-    //     $post = $community->posts()->create([
-    //         'user_id' => auth()->id(),
-    //         'title' => $request->title,
-    //         'post_text' => $request->post_text ?? null,
-    //         'post_url' => $request->post_url ?? null,
-    //     ]);
-
-    //     if ($request->hasFile('post_image')) {
-    //         $image = $request->file('post_image')->getClientOriginalName();
-    //         $request->file('post_image')
-    //             ->storeAs('posts/' . $post->id, $image);
-    //         $post->update(['post_image' => $image]);
-
-    //         $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
-    //         $file->resize(600, null, function ($constraint) {
-    //             $constraint->aspectRatio();
-    //         });
-    //         $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnail_' . $image));
-    //     }
-
-    //     return redirect()->route('communities.show', $community);
-    // }
 
 
 
@@ -159,6 +149,24 @@ class CommunityPostController extends Controller
     // }
 
 
+    public function vote($post_id, $vote)
+    {
+
+        $post = Post::with('community')->findOrFail($post_id);
+
+        if (!PostVote::where('post_id', $post_id)->where('user_id', auth()->id())->count()) {
+
+            PostVote::create([
+                'post_id' => $post_id,
+                'user_id' => auth()->id(),
+                'vote' => $vote
+            ]);
+
+            $post->increment('votes', $vote);
+        }
+
+        return redirect()->route('communities.show', $post->community);
+    }
 
     // public function report($post_id)
     // {
