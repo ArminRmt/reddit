@@ -44,28 +44,23 @@ class CommunityController extends Controller
 
     //   Display the specified resource
 
-    public function show($id)
+    public function show($slug)
     {
-        // 
+        $community = Community::where('slug', $slug)->firstOrFail();
 
+        $query = $community->posts()->with('postVotes');
+
+        if (request('sort', '') == 'popular') {
+            $query->orderBy('votes', 'desc');
+        } else {
+            $query->latest('id');
+        }
+
+        $posts = $query->paginate(10);
+
+        return view('communities.show', compact('community', 'posts'));
     }
 
-    // public function show($slug)
-    // {
-    //     $community = Community::where('slug', $slug)->firstOrFail();
-
-    //     $query = $community->posts()->with('postVotes');
-
-    //     if (request('sort', '') == 'popular') {
-    //         $query->orderBy('votes', 'desc');
-    //     } else {
-    //         $query->latest('id');
-    //     }
-
-    //     $posts = $query->paginate(10);
-
-    //     return view('communities.show', compact('community', 'posts'));
-    // }
 
 
     public function edit(Community $community)

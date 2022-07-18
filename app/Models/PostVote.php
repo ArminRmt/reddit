@@ -11,8 +11,8 @@ class PostVote extends Model
 
     protected $fillable = ['post_id', 'user_id', 'vote'];
 
-    // public function post()
-    // {
-    //     return $this->belongsTo(Post::class);
-    // }
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

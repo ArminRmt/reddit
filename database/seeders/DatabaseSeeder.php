@@ -16,6 +16,14 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(TopicSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(CommunitiesSeeder::class);
+        $this->call(PostsSeeder::class);
+        $this->call(PostVotesSeeder::class);
+
+
+
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

@@ -14,32 +14,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 
+Route::get(
+    'c/{slug}',
+    [\App\Http\Controllers\CommunityController::class, 'show']
+)
+    ->name('communities.show');
 
-
-// Route::get('c/{slug}',
-//     [\App\Http\Controllers\CommunityController::class, 'show'])
-//     ->name('communities.show');
-
-// Route::get('p/{postId}',
-//     [\App\Http\Controllers\CommunityPostController::class, 'show'])
-//     ->name('communities.posts.show');
+Route::get(
+    'p/{postId}',
+    [\App\Http\Controllers\CommunityPostController::class, 'show']
+)
+    ->name('communities.posts.show');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::resource('communities', \App\Http\Controllers\CommunityController::class);
-    Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class);
-    Route::post('posts/{post_id}/vote', [\App\Http\Controllers\CommunityPostController::class, 'vote'])->name('post.vote');
-    // Route::resource('communities', \App\Http\Controllers\CommunityController::class)
-    //     ->except('show');
-    // Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class)
-    //     ->except('show');
-    // Route::resource('posts.comments', \App\Http\Controllers\PostCommentController::class);
-    // Route::post('posts/{post_id}/report', [\App\Http\Controllers\CommunityPostController::class, 'report'])->name('post.report');
+    Route::resource('communities', \App\Http\Controllers\CommunityController::class)
+        ->except('show');
+    Route::resource('communities.posts', \App\Http\Controllers\CommunityPostController::class)
+        ->except('show');
+    Route::resource('posts.comments', \App\Http\Controllers\PostCommentController::class);
+    Route::post('posts/{post_id}/report', [\App\Http\Controllers\CommunityPostController::class, 'report'])->name('post.report');
 });
