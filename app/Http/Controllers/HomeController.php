@@ -15,6 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // TODO: use relation votesThisWeek in post model
+
         $posts = Post::with('community')->withCount(['postVotes' => function ($query) {
             $query->where('post_votes.created_at', '>', now()->subDays(7))
                 ->where('vote', 1);
