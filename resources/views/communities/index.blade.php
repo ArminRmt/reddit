@@ -3,9 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">{{ __('My Communities') }}</div>
-
         <div class="card-body">
-
             @if (session('message'))
                 <div class="alert alert-info">{{ session('message') }}</div>
                 <br />
@@ -41,8 +39,6 @@
                     @endforeach
                 </tbody>
             </table>
-
-
         </div>
     </div>
 @endsection
