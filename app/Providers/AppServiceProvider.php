@@ -36,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('newestCommunities', Community::withCount('posts')->latest()->take(5)->get());
 
         PostVote::observe(PostVoteObserver::class);
+
+
         // Option 2
         // View::composer('app', function($view)
         // {

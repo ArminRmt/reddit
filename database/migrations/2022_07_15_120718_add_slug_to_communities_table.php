@@ -6,11 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
+    // TODO: why we add slugg and use it instead of id?
+
     public function up()
     {
         Schema::table('communities', function (Blueprint $table) {
