@@ -20,8 +20,8 @@
 
 ## Features
 
-- FUll CRUD
-- ui Authentication
+- Full CRUD
+- Ui Authentication
 - OwnerModerator
 - VoteSystem
 
