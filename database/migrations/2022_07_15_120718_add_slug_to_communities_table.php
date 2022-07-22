@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-    // TODO: why we add slugg and use it instead of id?
+    // why we add slugg and use it instead of id?  human-readable
 
     public function up()
     {

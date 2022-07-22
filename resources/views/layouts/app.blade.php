@@ -31,9 +31,22 @@
     {{-- SELECT2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+
+
+    <style>
+        #app {
+            background-image: url({{ URL::asset('images/1.webp') }});
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
+
+
 </head>
 
 <body>
+    {{-- TODO: make select2 work --}}
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -121,8 +134,7 @@
 
                             <div class="card-body">
                                 @foreach ($newestCommunities as $community)
-                                    <a
-                                        href="{{ route('communities.show', $community) }}">{{ $community->name }}</a>
+                                    <a href="{{ route('communities.show', $community) }}">{{ $community->name }}</a>
                                     ({{ $community->posts_count }} posts)
                                     <div class="mt-1">{{ $community->created_at->diffForHumans() }}</div>
                                     <hr />

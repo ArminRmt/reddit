@@ -3,7 +3,6 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-
             <div class="row">
                 <div class="col-8">
                     <h1>{{ $community->name }}</h1>
@@ -19,7 +18,6 @@
         </div>
 
         <div class="card-body">
-
             <a href="{{ route('communities.posts.create', $community) }}" class="btn btn-primary">Add Post</a>
             <br /><br />
             @forelse ($posts as $post)
@@ -39,7 +37,6 @@
             @endforelse
 
             {{ $posts->links() }}
-
         </div>
     </div>
 @endsection

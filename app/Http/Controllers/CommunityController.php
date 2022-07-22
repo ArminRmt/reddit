@@ -56,7 +56,7 @@ class CommunityController extends Controller
             $query->latest('id');
         }
 
-        $posts = $query->paginate(10);
+        $posts = $query->paginate(5);
 
         return view('communities.show', compact('community', 'posts'));
     }

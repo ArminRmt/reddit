@@ -44,21 +44,31 @@ class CommunityPostController extends Controller
         ]);
 
         if ($request->hasFile('post_image')) {
+
             $image = $request->file('post_image')->getClientOriginalName();
+
             $request->file('post_image')
-                ->storeAs('posts/' . $post->id, $image);
+                ->storeAs('public/posts/' . $post->id, $image);
+
             $post->update(['post_image' => $image]);
 
             $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
-            $file->resize(600, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+
+
+            $file->fit(740, 400);
+
+
+            // $file->resize(600, null, function ($constraint) {
+            //     $constraint->aspectRatio();
+            // });
+
+
             $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnail_' . $image));
         }
 
+
         return redirect()->route('communities.show', $community);
     }
-
 
 
     //   Display the specified resource.
@@ -99,7 +109,7 @@ class CommunityPostController extends Controller
         if ($request->hasFile('post_image')) {
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')
-                ->storeAs('posts/' . $post->id, $image);
+                ->storeAs('public/posts/' . $post->id, $image);
 
             if ($post->post_image != '' && $post->post_image != $image) {
                 unlink(storage_path('app/public/posts/' . $post->id . '/' . $post->post_image));
@@ -108,9 +118,7 @@ class CommunityPostController extends Controller
             $post->update(['post_image' => $image]);
 
             $file = Image::make(storage_path('app/public/posts/' . $post->id . '/' . $image));
-            $file->resize(600, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            $file->fit(740, 400);
             $file->save(storage_path('app/public/posts/' . $post->id . '/thumbnail_' . $image));
         }
 
@@ -135,33 +143,12 @@ class CommunityPostController extends Controller
 
 
 
-    // public function vote($post_id, $vote)
-    // {
-
-    //     $post = Post::with('community')->findOrFail($post_id);
-
-    //     // if there is no vote record or this post not belong to user or vote is in 1 or -1 : add vote
-    //     if (
-    //         !PostVote::where('post_id', $post_id)->where('user_id', auth()->id())->count()
-    //         && in_array($vote, [-1, 1]) && $post->user_id != auth()->id()
-    //     ) {
-    //         PostVote::create([
-    //             'post_id' => $post_id,
-    //             'user_id' => auth()->id(),
-    //             'vote' => $vote
-    //         ]);
-    //     }
-
-    //     return redirect()->route('communities.show', $post->community);
-    // }
-
-
-
     public function report($post_id)
     {
         $post = Post::with('community.user')->findOrFail($post_id);
 
         $post->community->user->notify(new PostReportNotification($post));
+
 
         return redirect()->route('communities.posts.show', [$post->id])
             ->with('message', 'Your report has been sent.');

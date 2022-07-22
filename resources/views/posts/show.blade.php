@@ -43,8 +43,8 @@
 
                 <hr />
                 @can('edit-post', $post)
-                    <a href="{{ route('communities.posts.edit', [$post->community, $post]) }}"
-                        class="btn btn-sm btn-primary">Edit post</a>
+                    <a href="{{ route('communities.posts.edit', [$post->community, $post]) }}" class="btn btn-sm btn-primary">Edit
+                        post</a>
                 @endcan
 
                 @can('delete-post', $post)
@@ -64,7 +64,6 @@
                     </form>
                 @endcan
             @endauth
-
         </div>
     </div>
 @endsection
