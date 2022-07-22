@@ -2,7 +2,7 @@
 <img src="https://github.com/ArminRmt/reddit/blob/master/ER.png?raw=true"  width="750" height="550" class="center">
 
 
-# Blog
+## Description
  Fullstack blog built with Laravel-ui, Bootstrap, Spatie
  Developed with the help of [PovilasKorop](https://github.com/LaravelDaily)
 
@@ -26,7 +26,7 @@
 - VoteSystem
 
 
-Installation:
+## Installation:
 
 
 	download file
